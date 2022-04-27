@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react'
+import { createContext, useEffect, useState } from 'react'
 import React from 'react'
 
 export type authContextType = {
@@ -15,7 +15,12 @@ type AuthContextProviderProps = {
 const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [authToken, setAuthToken] = useState('')
-
+  useEffect(() => {
+    const prevState = localStorage.getItem('isLoggedIn')
+    if (prevState) {
+      setIsLoggedIn(() => Boolean(prevState))
+    }
+  }, [])
   const config = {
     isLoggedIn,
     setIsLoggedIn,

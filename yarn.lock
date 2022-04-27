@@ -1520,6 +1520,11 @@
   resolved "https://registry.yarnpkg.com/@mantine/hooks/-/hooks-4.1.5.tgz#75576e15b26b6e71037816d140083ce5bdb1daf2"
   integrity sha512-6zkVaxBT4ajDO3gt5vx388bnSM5eCiIB/EDJaqobeuwt8S2OkxTDCeDtHpNdSczkNVfoShoUzmb8IBtBF4D9Gw==
 
+"@mantine/modals@^4.1.5":
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/@mantine/modals/-/modals-4.1.5.tgz#0d54c70df1d8484d36e97eb9c43edbb08e6ed9d9"
+  integrity sha512-tv/TDCZNHQwg8r+4xfoZ5l8qLONWCjmoDIU947XGZZREqsfqFpawi40yzhHFf8UoSq++W/ddmZi1uUcLb5Feyg==
+
 "@mantine/notifications@^4.1.5":
   version "4.1.5"
   resolved "https://registry.yarnpkg.com/@mantine/notifications/-/notifications-4.1.5.tgz#095f5ef9ec731e77e35dac9cd873e2b383fef769"
@@ -8436,6 +8441,11 @@ symbol-tree@^3.2.4:
   version "3.2.4"
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.4.tgz#430637d248ba77e078883951fb9aa0eed7c63fa2"
   integrity sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==
+
+tabler-icons-react@^1.46.0:
+  version "1.46.0"
+  resolved "https://registry.yarnpkg.com/tabler-icons-react/-/tabler-icons-react-1.46.0.tgz#957215030bd5ce0ce2d2a93ed5e52b85f5ff95f7"
+  integrity sha512-tQt686DPfGRXxdCMg63gEO7KP1mcmx0JvzgAq5HKkD3ts9HSL9AAaGAGpa/IJdD0tLaoviegdpv6MOp8DsAr9Q==
 
 tailwindcss@^3.0.2:
   version "3.0.24"

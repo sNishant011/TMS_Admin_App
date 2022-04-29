@@ -7,9 +7,9 @@ import { MantineProvider, MantineThemeOverride } from '@mantine/core'
 import './styles/global.css'
 import { NotificationsProvider } from '@mantine/notifications'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Login from './pages/Login'
 import NotFound from './pages/NotFound'
 import { ModalsProvider } from '@mantine/modals'
+import PackagesContextProvider from './context/PackagesContextProvider'
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const myTheme: MantineThemeOverride = {
   colorScheme: 'light',
@@ -27,18 +27,20 @@ const myTheme: MantineThemeOverride = {
 root.render(
   <React.StrictMode>
     <AuthContextProvider>
-      <MantineProvider theme={myTheme}>
-        <NotificationsProvider>
-          <ModalsProvider>
-            <BrowserRouter>
-              <Routes>
-                <Route element={<App />} path='/*' />
-                <Route element={<Login />} path='*' />
-              </Routes>
-            </BrowserRouter>
-          </ModalsProvider>
-        </NotificationsProvider>
-      </MantineProvider>
+      <PackagesContextProvider>
+        <MantineProvider theme={myTheme}>
+          <NotificationsProvider>
+            <ModalsProvider>
+              <BrowserRouter>
+                <Routes>
+                  <Route element={<App />} path='/*' />
+                  <Route element={<NotFound />} path='*' />
+                </Routes>
+              </BrowserRouter>
+            </ModalsProvider>
+          </NotificationsProvider>
+        </MantineProvider>
+      </PackagesContextProvider>
     </AuthContextProvider>
   </React.StrictMode>
 )

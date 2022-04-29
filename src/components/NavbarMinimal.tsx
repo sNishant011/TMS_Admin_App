@@ -7,22 +7,24 @@ import {
   createStyles,
   Group,
   Text,
+  Box,
+  Title,
 } from '@mantine/core'
 import {
   Icon as TablerIcon,
-  Home2,
   Gauge,
   DeviceDesktopAnalytics,
-  Fingerprint,
-  CalendarStats,
   User,
-  Settings,
   Logout,
   SwitchHorizontal,
+  Bookmarks,
+  Plus,
+  Package,
 } from 'tabler-icons-react'
 import { useModals } from '@mantine/modals'
 import { showNotification } from '@mantine/notifications'
 import { useAuth } from '../hooks/useAuth'
+import { NavLink, useLocation, useNavigate, useRoutes } from 'react-router-dom'
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -60,43 +62,74 @@ const useStyles = createStyles((theme) => ({
 interface NavbarLinkProps {
   icon: TablerIcon
   label: string
+  href: string
   active?: boolean
   onClick?(): void
 }
 
-function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
+function NavbarLink({
+  icon: Icon,
+  label,
+  active,
+  href,
+  onClick,
+}: NavbarLinkProps) {
   const { classes, cx } = useStyles()
   return (
-    <Tooltip label={label} position='right' withArrow transitionDuration={0}>
-      <UnstyledButton
-        onClick={onClick}
-        className={cx(classes.link, { [classes.active]: active })}
-      >
-        <Icon />
-      </UnstyledButton>
-    </Tooltip>
+    <Box
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        width: '100%',
+      }}
+    >
+      <Tooltip label={label} position='right' withArrow transitionDuration={0}>
+        <NavLink
+          to={href}
+          style={{
+            display: 'flex',
+            width: '100%',
+            alignItems: 'center',
+            gap: '1rem',
+            textDecoration: 'none',
+            color: 'black',
+          }}
+          onClick={onClick}
+        >
+          <UnstyledButton
+            className={cx(classes.link, { [classes.active]: active })}
+          >
+            <Icon />
+          </UnstyledButton>
+
+          <Text
+            style={{ color: active ? '#1c7ed6' : 'black', fontWeight: '400' }}
+          >
+            {label}
+          </Text>
+        </NavLink>
+      </Tooltip>
+    </Box>
   )
 }
 
 const mockdata = [
-  { icon: Home2, label: 'Home' },
-  { icon: Gauge, label: 'Dashboard' },
-  { icon: DeviceDesktopAnalytics, label: 'Analytics' },
-  { icon: CalendarStats, label: 'Releases' },
-  { icon: User, label: 'Account' },
-  { icon: Fingerprint, label: 'Security' },
-  { icon: Settings, label: 'Settings' },
+  { icon: Gauge, label: 'Dashboard', href: '/' },
+  { icon: Package, label: 'All Packages', href: '/packages' },
+  { icon: Plus, label: 'Add Packages', href: '/packages/add' },
+  { icon: Bookmarks, label: 'Bookings', href: '/bookings' },
+  { icon: User, label: 'Users', href: '/users' },
 ]
 
 const NavbarMinimal = () => {
-  const [active, setActive] = useState(0)
-
+  // getting path name
+  const location = useLocation()
   const links = mockdata.map((link, index) => (
     <NavbarLink
       {...link}
       key={link.label}
-      active={index === active}
-      onClick={() => setActive(index)}
+      active={link.href === location.pathname}
     />
   ))
   const modals = useModals()
@@ -123,9 +156,10 @@ const NavbarMinimal = () => {
       }),
     })
   }
-
+  const navigate = useNavigate()
   const handleConfirmLogout = () => {
     localStorage.removeItem('isLoggedIn')
+    navigate('/login')
     setIsLoggedIn(false)
     showNotification({
       title: 'Logout Successfull',
@@ -155,22 +189,33 @@ const NavbarMinimal = () => {
       children: <Text size='sm'>Are you sure you want to logout?</Text>,
       labels: { confirm: 'Logout', cancel: "Don't Logout" },
       confirmProps: { color: 'red' },
+      overlayOpacity: 0.4,
       onCancel: () => handleCancelLogout(),
       onConfirm: () => handleConfirmLogout(),
     })
 
   return (
-    <Navbar height={750} width={{ base: 80 }} p='md'>
-      <Center>TMS</Center>
-      <Navbar.Section grow mt={50}>
+    <Navbar
+      height={750}
+      style={{
+        width: '250px',
+        height: '100%',
+        maxHeight: '100%',
+        padding: '0.5rem',
+      }}
+    >
+      <Center>
+        <Title order={1}>TMS</Title>
+      </Center>
+      <Navbar.Section grow mt={20}>
         <Group direction='column' align='center' spacing={0}>
           {links}
         </Group>
       </Navbar.Section>
       <Navbar.Section>
         <Group direction='column' align='center' spacing={0}>
-          <NavbarLink icon={SwitchHorizontal} label='Change account' />
           <NavbarLink
+            href='#'
             icon={Logout}
             onClick={() => openLogoutModal()}
             label='Logout'

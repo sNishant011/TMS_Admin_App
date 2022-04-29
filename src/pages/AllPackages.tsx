@@ -1,14 +1,15 @@
 import { ActionIcon, Box, Checkbox, Table, Text, Title } from '@mantine/core'
 import { useModals } from '@mantine/modals'
-import React from 'react'
+import React, { useState } from 'react'
 import { Pencil, Trash } from 'tabler-icons-react'
 import { usePackage } from '../hooks/usePackage'
 
 const AllPackages = () => {
-  const { allPackages } = usePackage()
+  const { allPackages, deletePackage } = usePackage()
   const deletePackageModal = useModals()
-
-  const handlePackageDelete = () => {
+  const [packageID, setPackageID] = useState<number | null>(null)
+  const handlePackageDelete = (package_slug: string) => {
+    // setPackageID(packageID)
     deletePackageModal.openConfirmModal({
       title: 'Delete a package',
       centered: true,
@@ -18,7 +19,7 @@ const AllPackages = () => {
       labels: { confirm: 'Delete Package', cancel: "No don't delete it" },
       confirmProps: { color: 'red' },
       onCancel: () => console.log('Cancel'),
-      onConfirm: () => console.log('Confirmed'),
+      onConfirm: () => deletePackage(package_slug),
     })
   }
 
@@ -59,7 +60,7 @@ const AllPackages = () => {
                     <Pencil />
                   </ActionIcon>
                   <ActionIcon
-                    onClick={() => handlePackageDelete()}
+                    onClick={() => handlePackageDelete(packageItem.slug)}
                     variant='filled'
                     color={`red`}
                   >

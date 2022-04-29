@@ -6,7 +6,7 @@ export const usePackage = () => {
   if (!context) {
     throw new Error('must be inside provider')
   }
-  const { allPackages, setAllPackages } = context
+  const { allPackages, deletePackage, setAllPackages } = context
 
-  return { allPackages, setAllPackages }
+  return { allPackages, deletePackage, setAllPackages }
 }

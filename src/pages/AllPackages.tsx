@@ -1,13 +1,15 @@
 import { ActionIcon, Box, Checkbox, Table, Text, Title } from '@mantine/core'
 import { useModals } from '@mantine/modals'
+
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Pencil, Trash } from 'tabler-icons-react'
 import { usePackage } from '../hooks/usePackage'
 
 const AllPackages = () => {
   const { allPackages, deletePackage } = usePackage()
   const deletePackageModal = useModals()
-  const [packageID, setPackageID] = useState<number | null>(null)
+  const navigate = useNavigate()
   const handlePackageDelete = (package_slug: string) => {
     // setPackageID(packageID)
     deletePackageModal.openConfirmModal({
@@ -56,7 +58,13 @@ const AllPackages = () => {
               </td>
               <td>
                 <Box style={{ display: 'flex', gap: '0.5rem' }}>
-                  <ActionIcon variant='filled' color={`blue`}>
+                  <ActionIcon
+                    variant='filled'
+                    color={`blue`}
+                    onClick={() =>
+                      navigate(`/packages/edit-package/${packageItem.slug}`)
+                    }
+                  >
                     <Pencil />
                   </ActionIcon>
                   <ActionIcon

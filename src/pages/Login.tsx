@@ -11,7 +11,7 @@ import {
 } from '@mantine/core'
 import { useForm } from '@mantine/hooks'
 import { showNotification } from '@mantine/notifications'
-import { createBrowserHistory } from 'history'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import {
   NotificationErrorTheme,
@@ -82,30 +82,12 @@ const Login = () => {
       rememberMe: false,
     },
   })
+  const { login } = useAuth()
   const handleFormSubmit = (values: loginFormType) => {
     console.log(values)
-    if (values.email === 'admin@tms.com' && values.password === 'admin') {
-      setIsLoggedIn(true)
-      if (values.rememberMe) {
-        localStorage.setItem('isLoggedIn', 'true')
-      }
-      history.push('/')
-      showNotification({
-        title: 'Logged in Successfully',
-        message: 'Welcome to Admin Pannel',
-
-        styles: (theme) => NotificationSuccessTheme(theme),
-      })
-    } else {
-      showNotification({
-        title: 'Incorrect Credentials',
-        message: 'Please enter the correct email and password!',
-        styles: (theme) => NotificationErrorTheme(theme),
-      })
-    }
+    login(values.email, values.password, values.rememberMe)
   }
-  const history = createBrowserHistory()
-  const { setIsLoggedIn } = useAuth()
+
   const { classes } = useStyles()
   return (
     <Center className={classes.login_container}>

@@ -117,7 +117,7 @@ function NavbarLink({
 const mockdata = [
   { icon: Gauge, label: 'Dashboard', href: '/' },
   { icon: Package, label: 'All Packages', href: '/packages' },
-  { icon: Plus, label: 'Add Packages', href: '/packages/add' },
+  { icon: Plus, label: 'Add Packages', href: '/packages/add-package' },
   { icon: Bookmarks, label: 'Bookings', href: '/bookings' },
   { icon: User, label: 'Users', href: '/users' },
 ]
@@ -133,7 +133,7 @@ const NavbarMinimal = () => {
     />
   ))
   const modals = useModals()
-  const { setIsLoggedIn } = useAuth()
+  const { logout } = useAuth()
   const handleCancelLogout = () => {
     showNotification({
       title: 'Logout Cancelled',
@@ -160,26 +160,8 @@ const NavbarMinimal = () => {
   const handleConfirmLogout = () => {
     localStorage.removeItem('isLoggedIn')
     navigate('/login')
-    setIsLoggedIn(false)
-    showNotification({
-      title: 'Logout Successfull',
-      message: 'Your session is now over!',
-      styles: (theme) => ({
-        root: {
-          backgroundColor: theme.colors.green[8],
-          borderColor: theme.colors.green[8],
-
-          '&::before': { backgroundColor: theme.white },
-        },
-
-        title: { color: theme.white },
-        description: { color: theme.white },
-        closeButton: {
-          color: theme.white,
-          '&:hover': { backgroundColor: theme.colors.green[8] },
-        },
-      }),
-    })
+    logout()
+    
   }
 
   const openLogoutModal = () =>

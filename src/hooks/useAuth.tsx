@@ -6,7 +6,7 @@ export const useAuth = () => {
   if (!context) {
     throw new Error('must be inside provider')
   }
-  const { isLoggedIn, setIsLoggedIn, authToken, setAuthToken } = context
+  const { user, login, logout } = context
 
-  return { isLoggedIn, setIsLoggedIn, authToken, setAuthToken }
+  return { user, login, logout }
 }

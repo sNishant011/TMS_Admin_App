@@ -13,34 +13,29 @@ export const AuthContext = createContext<authContextType | null>(null)
 type AuthContextProviderProps = {
   children: React.ReactNode
 }
-type ResponseTokenType = {
-  access: string
-  refresh: string
-}
-type ResponseType = {
-  status: number
-  data: ResponseTokenType
-}
 export type authContextType = {
-  user: string
+  authToken: string | null
   login: (email: string, password: string, remember_me: boolean) => void
   logout: () => void
 }
 const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
-  const [authToken, setAuthToken] = useState<ResponseTokenType | null>(null)
-  const [user, setUser] = useState('')
-  let [res, setRes] = useState<ResponseType | null>(null)
+  const [authToken, setAuthToken] = useState<string | null>(null)
+  // const [user, setUser] = useState('')
+  let [res, setRes] = useState<any>(null)
   useEffect(() => {
-    const user = localStorage.getItem('user')
-    if (user) {
-      setUser(JSON.parse(user))
+    const token = localStorage.getItem('token')
+    if (token) {
+      setAuthToken(token as string)
     }
   }, [])
   useEffect(() => {
     if (res) {
+      console.log(res)
       if (res.status === 200) {
-        setAuthToken(res.data)
-        setUser(res.data.access)
+        setAuthToken(res.data.jwt)
+        if (res.remember_me) {
+          localStorage.setItem('token', res.data.jwt)
+        }
         showNotification({
           title: 'Welcome Admin!',
           message: 'Login Successful!',
@@ -48,7 +43,7 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
         })
       } else {
         showNotification({
-          title: 'Wrong credentials',
+          title: res.data.detail,
           message: 'Please enter the correct email and password!',
           styles: (theme) => NotificationErrorTheme(theme),
         })
@@ -56,38 +51,23 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     }
   }, [res])
 
-  const login = (email: string, password: string, remember_me: boolean) => {
-    // let res = await axios.post(`${BASE_API_ROUTE}/auth`, {
-    //   email: email,
-    //   password: password,
-    // })
-    if (email === 'admin@tms.com' && password === 'admin') {
-      if (remember_me) {
-        localStorage.setItem(
-          'user',
-          JSON.stringify({ access: 'admin', refresh: 'admin' })
-        )
-      }
-      setRes({
-        status: 200,
-        data: {
-          access: 'admin',
-          refresh: 'admin',
-        },
+  const login = async (
+    email: string,
+    password: string,
+    remember_me: boolean
+  ) => {
+    axios
+      .post(`${BASE_API_ROUTE}/accounts/login`, {
+        email: email,
+        password: password,
       })
-    } else {
-      setRes({
-        status: 400,
-        data: {
-          access: '',
-          refresh: '',
-        },
-      })
-    }
+      .then((res: any) => setRes({ ...res, remember_me }))
+      .catch((err: any) => setRes(err.response))
   }
 
   const logout = () => {
-    setUser('')
+    // setUser('')
+    localStorage.removeItem('token')
     showNotification({
       title: 'Logout Successfull',
       message: 'Your session is now over!',
@@ -109,8 +89,8 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     })
   }
   const config = {
-    user,
     login,
+    authToken,
     logout,
   }
   return (

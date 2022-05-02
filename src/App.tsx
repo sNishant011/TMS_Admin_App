@@ -10,9 +10,13 @@ import Login from './pages/Login'
 import NotFound from './pages/NotFound'
 
 function App() {
-  const { user } = useAuth()
-  if (user === '') {
-    return <Login />
+  const { authToken } = useAuth()
+  if (authToken === null) {
+    return (
+      <Routes>
+        <Route path='/*' element={<Login />} />
+      </Routes>
+    )
   }
   return (
     <Box

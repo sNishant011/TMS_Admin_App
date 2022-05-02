@@ -82,13 +82,14 @@ const Login = () => {
       rememberMe: false,
     },
   })
-  const { login } = useAuth()
+  const { login, authToken } = useAuth()
   const handleFormSubmit = (values: loginFormType) => {
     console.log(values)
     login(values.email, values.password, values.rememberMe)
   }
 
   const { classes } = useStyles()
+
   return (
     <Center className={classes.login_container}>
       <Center className={classes.form_wrapper}>

@@ -13,7 +13,7 @@ export type packageContextType = {
   setAllPackages: React.Dispatch<React.SetStateAction<Package[] | null>>
   deletePackage: (package_slug: string) => void
   getPackageBySlug: (package_slug: string) => Package | void
-  editPackage: (p1: Package) => void
+  editPackage: (p1: UploadPackage) => void
   addPackage: (p1: UploadPackage) => void
 }
 
@@ -35,11 +35,10 @@ const PackagesContextProvider = ({
       return
     }
   }
-  const editPackage = (p1: Package) => {
-    const { thumbnail_Image, ...p2 } = p1
+  const editPackage = (p2: UploadPackage) => {
     console.log(p2)
     axios
-      .put(`${BASE_API_ROUTE}/tour-packages/${p1.slug}/`, p2, {
+      .put(`${BASE_API_ROUTE}/tour-packages/${p2.slug}/`, p2, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -52,16 +51,17 @@ const PackagesContextProvider = ({
         })
         if (allPackages) {
           setAllPackages([
-            ...allPackages.filter((p) => p.id !== p1.id),
+            ...allPackages.filter((p) => p.slug !== p2.slug),
             res.data,
           ])
         }
       })
       .catch((err) => {
         console.log(err)
+
         showNotification({
           title: 'Error',
-          message: `Couldn't edit package.`,
+          message: `Error editing the package`,
           styles: (theme) => NotificationErrorTheme(theme),
         })
       })
@@ -87,9 +87,19 @@ const PackagesContextProvider = ({
       })
       .catch((err) => {
         console.log(err)
+        let error_message = ''
+        const error_response = err.response.data
+        if (error_response) {
+          if (error_response.slug) {
+            error_message = error_response.slug
+          }
+        } else {
+          error_message = 'Error adding the package'
+        }
         showNotification({
           title: 'Error',
-          message: `Couldn't save package.`,
+          message: error_message,
+          autoClose: 10000,
           styles: (theme) => NotificationErrorTheme(theme),
         })
       })

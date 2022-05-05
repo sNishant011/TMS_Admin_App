@@ -27,6 +27,7 @@ const AddPackage = () => {
     image: '',
     no_of_days: 0,
     price: 0,
+    slug: '',
     is_active: false,
     is_featured: false,
     summary: '',
@@ -68,7 +69,12 @@ const AddPackage = () => {
             placeholder='Title goes on here..'
             {...form.getInputProps('title')}
           />
-
+          <TextInput
+            label='Slug'
+            style={{ width: `100%` }}
+            placeholder='Enter Slug..'
+            {...form.getInputProps('slug')}
+          />
           <Box style={{ width: `100%`, display: 'flex', gap: `0.5rem` }}>
             <NumberInput
               placeholder='No. of Days'

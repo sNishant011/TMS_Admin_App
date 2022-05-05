@@ -68,6 +68,7 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const logout = () => {
     // setUser('')
     localStorage.removeItem('token')
+    setAuthToken(null)
     showNotification({
       title: 'Logout Successfull',
       message: 'Your session is now over!',

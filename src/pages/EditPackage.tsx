@@ -114,7 +114,20 @@ const EditPackage = () => {
           }}
           onSubmit={(e) => {
             e.preventDefault()
-            console.log(e)
+            const p1 = {
+              id,
+              title,
+              slug,
+              image,
+              no_of_days,
+              price,
+              is_active,
+              is_featured,
+              summary,
+              full_detail,
+            }
+            console.log(p1)
+            editPackage(p1)
           }}
         >
           <Box style={{ width: `100%`, display: 'flex', gap: `0.5rem` }}>

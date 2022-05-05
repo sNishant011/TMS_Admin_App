@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactPropTypes, useEffect } from 'react'
 import {
   createStyles,
   Container,
@@ -8,7 +8,8 @@ import {
   Group,
 } from '@mantine/core'
 import { Illustration } from '../components/Illustration'
-import { Link } from 'react-router-dom'
+import { BrowserRouter, Link, useLocation, useNavigate } from 'react-router-dom'
+import { useAuth } from '../hooks/useAuth'
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -47,9 +48,16 @@ const useStyles = createStyles((theme) => ({
   },
 }))
 
-const NotFound = () => {
+const NotFound = (props: any) => {
   const { classes } = useStyles()
-
+  const { authToken } = useAuth()
+  const navigate = useNavigate()
+  const location = useLocation()
+  useEffect(() => {
+    if (location.pathname === '/login') {
+      navigate('/')
+    }
+  }, [authToken, navigate, location])
   return (
     <Container className={classes.root}>
       <div className={classes.inner}>

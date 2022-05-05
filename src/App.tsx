@@ -11,7 +11,7 @@ import NotFound from './pages/NotFound'
 
 function App() {
   const { authToken } = useAuth()
-  if (authToken === null) {
+  if (!authToken) {
     return (
       <Routes>
         <Route path='/*' element={<Login />} />
@@ -38,6 +38,7 @@ function App() {
           />
 
           <Route path='/packages/add-package' element={<AddPackage />} />
+
           <Route path='*' element={<NotFound />} />
         </Routes>
       </Box>

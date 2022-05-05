@@ -82,7 +82,7 @@ const Login = () => {
       rememberMe: false,
     },
   })
-  const { login, authToken } = useAuth()
+  const { login } = useAuth()
   const handleFormSubmit = (values: loginFormType) => {
     console.log(values)
     login(values.email, values.password, values.rememberMe)

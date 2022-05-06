@@ -10,16 +10,14 @@ import {
   InputWrapper,
   Loader,
   NumberInput,
-  Select,
   Textarea,
   TextInput,
   Title,
 } from '@mantine/core'
-import { useForm } from '@mantine/form'
 import RichTextEditor from '@mantine/rte'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { Package } from '../configs/customTypes'
+import { EditPackageType, Package } from '../configs/customTypes'
 import { usePackage } from '../hooks/usePackage'
 
 const EditPackage = () => {
@@ -30,7 +28,6 @@ const EditPackage = () => {
   )
   const [id, setId] = useState<number>(0)
   const [title, setTitle] = useState<string>('N/A')
-  const [thumbnail_Image, setThumbnail_Image] = useState<File | string>('N/A')
   const [slug, setSlug] = useState<string>('')
   const [image, setImage] = useState<File | string>('')
   const [no_of_days, setNo_of_days] = useState<number>(0)
@@ -40,25 +37,11 @@ const EditPackage = () => {
   const [summary, setSummary] = useState<string>('')
   const [full_detail, setFull_detail] = useState<string>('')
   const [previewImage, setPreviewImage] = useState<string>('')
-  // method to convert url to image file type
-  const convertUrlToImage = (url: string) => {
-    const imageName = url.split('/').pop()
-    let file
-    file = new File([], 'image.jpg', { type: 'image/jpeg' })
-    if (imageName) {
-      file = new File([], imageName, {
-        type: 'image/jpeg',
-      })
-    }
-    console.log(file)
-    return file
-  }
+
   useEffect(() => {
     if (packageSlug) {
       const p1 = getPackageBySlug(packageSlug)
-
       if (p1) {
-        // p1.image = convertUrlToImage(p1.image as string)
         setPackageToBeEdited(p1)
       }
     }
@@ -66,9 +49,7 @@ const EditPackage = () => {
 
   useEffect(() => {
     if (packageToBeEdited) {
-      console.log(packageToBeEdited)
       setId(packageToBeEdited.id)
-      setThumbnail_Image(packageToBeEdited.thumbnail_Image)
       setTitle(packageToBeEdited.title)
       setSlug(packageToBeEdited.slug)
       setNo_of_days(packageToBeEdited.no_of_days)
@@ -77,10 +58,8 @@ const EditPackage = () => {
       setIs_featured(packageToBeEdited.is_featured)
       setSummary(packageToBeEdited.summary)
       setFull_detail(packageToBeEdited.full_detail)
-
       const image_url = packageToBeEdited.thumbnail_Image
       setPreviewImage(image_url)
-      setImage(convertUrlToImage(image_url as string))
     }
   }, [packageToBeEdited])
 
@@ -114,18 +93,18 @@ const EditPackage = () => {
           }}
           onSubmit={(e) => {
             e.preventDefault()
-            const p1 = {
-              id,
+            const p1: EditPackageType = {
               title,
               slug,
-              image,
               no_of_days,
               price,
               is_active,
               is_featured,
               summary,
               full_detail,
+              image,
             }
+
             console.log(p1)
             editPackage(p1)
           }}

@@ -2,7 +2,7 @@ import { showNotification } from '@mantine/notifications'
 import axios from 'axios'
 import { createContext, useEffect, useState } from 'react'
 import { BASE_API_ROUTE } from '../configs/constants'
-import { Package, UploadPackage } from '../configs/customTypes'
+import { EditPackageType, Package, UploadPackage } from '../configs/customTypes'
 import {
   NotificationErrorTheme,
   NotificationSuccessTheme,
@@ -13,7 +13,7 @@ export type packageContextType = {
   setAllPackages: React.Dispatch<React.SetStateAction<Package[] | null>>
   deletePackage: (package_slug: string) => void
   getPackageBySlug: (package_slug: string) => Package | void
-  editPackage: (p1: UploadPackage) => void
+  editPackage: (p1: EditPackageType) => void
   addPackage: (p1: UploadPackage) => void
 }
 
@@ -35,7 +35,7 @@ const PackagesContextProvider = ({
       return
     }
   }
-  const editPackage = (p2: UploadPackage) => {
+  const editPackage = (p2: EditPackageType) => {
     console.log(p2)
     axios
       .put(`${BASE_API_ROUTE}/tour-packages/${p2.slug}/`, p2, {

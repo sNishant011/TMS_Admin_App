@@ -1,7 +1,7 @@
 import { ActionIcon, Box, Checkbox, Table, Text, Title } from '@mantine/core'
 import { useModals } from '@mantine/modals'
 
-import React, { useState } from 'react'
+import React   from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Pencil, Trash } from 'tabler-icons-react'
 import { usePackage } from '../hooks/usePackage'
@@ -25,7 +25,6 @@ const AllPackages = () => {
     })
   }
 
-  console.log(allPackages)
   return (
     <>
       <Title order={1}>All Packages</Title>

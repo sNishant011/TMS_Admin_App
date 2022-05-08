@@ -2,9 +2,12 @@ import { Box } from '@mantine/core'
 import { Route, Routes } from 'react-router-dom'
 import NavbarMinimal from './components/NavbarMinimal'
 import { useAuth } from './hooks/useAuth'
+import AddBlog from './pages/AddBlog'
 import AddPackage from './pages/AddPackage'
+import AllBlogs from './pages/AllBlogs'
 import AllPackages from './pages/AllPackages'
 import Dashboard from './pages/Dashboard'
+import EditBlog from './pages/EditBlog'
 import EditPackage from './pages/EditPackage'
 import Login from './pages/Login'
 import NotFound from './pages/NotFound'
@@ -38,7 +41,10 @@ function App() {
           />
 
           <Route path='/packages/add-package' element={<AddPackage />} />
+          <Route path='/blogs' element={<AllBlogs />} />
 
+          <Route path='/blogs/add-blog' element={<AddBlog />} />
+          <Route path='/blogs/edit-blog/:blogSlug' element={<EditBlog />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
       </Box>

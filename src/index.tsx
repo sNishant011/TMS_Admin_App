@@ -10,6 +10,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import NotFound from './pages/NotFound'
 import { ModalsProvider } from '@mantine/modals'
 import PackagesContextProvider from './context/PackagesContextProvider'
+import BlogsContextProvider from './context/BlogsContextProvider'
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const myTheme: MantineThemeOverride = {
   colorScheme: 'light',
@@ -28,18 +29,20 @@ root.render(
   <React.StrictMode>
     <AuthContextProvider>
       <PackagesContextProvider>
-        <MantineProvider theme={myTheme}>
-          <NotificationsProvider>
-            <ModalsProvider>
-              <BrowserRouter>
-                <Routes>
-                  <Route element={<App />} path='/*' />
-                  <Route element={<NotFound />} path='*' />
-                </Routes>
-              </BrowserRouter>
-            </ModalsProvider>
-          </NotificationsProvider>
-        </MantineProvider>
+        <BlogsContextProvider>
+          <MantineProvider theme={myTheme}>
+            <NotificationsProvider>
+              <ModalsProvider>
+                <BrowserRouter>
+                  <Routes>
+                    <Route element={<App />} path='/*' />
+                    <Route element={<NotFound />} path='*' />
+                  </Routes>
+                </BrowserRouter>
+              </ModalsProvider>
+            </NotificationsProvider>
+          </MantineProvider>
+        </BlogsContextProvider>
       </PackagesContextProvider>
     </AuthContextProvider>
   </React.StrictMode>

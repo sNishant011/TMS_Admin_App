@@ -33,3 +33,22 @@ export type UploadPackage = {
   is_featured: boolean
   price: number
 }
+
+export type BlogType = {
+  id: number
+  title: string
+  subtitle: string
+  slug: string
+  description: string
+  image: File | string
+  thumbnail_Image: string
+  is_published: boolean | false
+}
+export type BlogUploadType = {
+  title: string
+  subtitle: string
+  slug: string
+  image: File | string
+  description: string
+  is_published: boolean | false
+}

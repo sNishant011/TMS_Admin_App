@@ -119,6 +119,8 @@ const mockdata = [
   { icon: Package, label: 'All Packages', href: '/packages' },
   { icon: Plus, label: 'Add Packages', href: '/packages/add-package' },
   { icon: Bookmarks, label: 'Bookings', href: '/bookings' },
+  { icon: Package, label: 'All Blogs', href: '/blogs' },
+  { icon: Plus, label: 'Add Blog', href: '/blogs/add-blog' },
   { icon: User, label: 'Users', href: '/users' },
 ]
 
@@ -161,7 +163,6 @@ const NavbarMinimal = () => {
     localStorage.removeItem('isLoggedIn')
     navigate('/login')
     logout()
-    
   }
 
   const openLogoutModal = () =>

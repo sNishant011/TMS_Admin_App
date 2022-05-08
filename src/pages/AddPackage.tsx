@@ -7,18 +7,13 @@ import {
   Group,
   Input,
   InputWrapper,
-  Loader,
   NumberInput,
-  Select,
   Textarea,
   TextInput,
-  Title,
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import RichTextEditor from '@mantine/rte'
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { Package } from '../configs/customTypes'
+import React from 'react'
 import { usePackage } from '../hooks/usePackage'
 
 const AddPackage = () => {

@@ -11,7 +11,6 @@ import { useModals } from '@mantine/modals'
 
 import { useNavigate } from 'react-router-dom'
 import { Pencil, Trash } from 'tabler-icons-react'
-import { SERVER_URL } from '../configs/constants'
 import { useBlog } from '../hooks/useBlog'
 
 const AllBlogs = () => {
@@ -29,6 +28,10 @@ const AllBlogs = () => {
       onConfirm: () => deleteBlog(blog_slug),
     })
   }
+  const getDate = (date1: Date) => {
+    const date = new Date(date1)
+    return date.toLocaleDateString()
+  }
 
   return (
     <>
@@ -41,6 +44,7 @@ const AllBlogs = () => {
             <th>Slug</th>
             <th>Subtitle</th>
             <th>Thumbnail Image</th>
+            <th>Date Created</th>
             <th>Status</th>
             <th>Actions</th>
           </tr>
@@ -59,6 +63,7 @@ const AllBlogs = () => {
                   width={`50px`}
                 />
               </td>
+              <td>{getDate(blog.date as Date)}</td>
               <td>
                 <Checkbox checked={blog.is_published} readOnly />
               </td>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
   Navbar,
   Center,
@@ -13,10 +13,8 @@ import {
 import {
   Icon as TablerIcon,
   Gauge,
-  DeviceDesktopAnalytics,
   User,
   Logout,
-  SwitchHorizontal,
   Bookmarks,
   Plus,
   Package,
@@ -24,7 +22,7 @@ import {
 import { useModals } from '@mantine/modals'
 import { showNotification } from '@mantine/notifications'
 import { useAuth } from '../hooks/useAuth'
-import { NavLink, useLocation, useNavigate, useRoutes } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -181,7 +179,7 @@ const NavbarMinimal = () => {
     <Navbar
       height={750}
       style={{
-        width: '250px',
+        width: '100%',
         height: '100%',
         maxHeight: '100%',
         padding: '0.5rem',

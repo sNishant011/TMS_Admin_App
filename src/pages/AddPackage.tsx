@@ -11,11 +11,14 @@ import {
   Textarea,
   TextInput,
 } from '@mantine/core'
+import { DateRangePicker } from '@mantine/dates'
 import { useForm } from '@mantine/form'
 import RichTextEditor from '@mantine/rte'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { Calendar } from 'tabler-icons-react'
 import { usePackage } from '../hooks/usePackage'
-
+import 'dayjs/locale/ne'
+import dayjs from 'dayjs'
 const AddPackage = () => {
   const initialValue = {
     title: '',
@@ -27,10 +30,18 @@ const AddPackage = () => {
     is_featured: false,
     summary: '',
     full_detail: '',
-    // is_published: false,
   }
-  const form = useForm({ initialValues: initialValue })
+  const [date, setDate] = useState<[Date | null, Date | null]>([null, null])
+  const [noOfDays, setNoOfDays] = useState(0)
   const { addPackage } = usePackage()
+  useEffect(() => {
+    if (date[0] && date[1]) {
+      const no_of_days =
+        (date[1].getTime() - date[0].getTime()) / (1000 * 60 * 60 * 24)
+      setNoOfDays(no_of_days)
+    }
+  }, [date])
+  const form = useForm({ initialValues: initialValue })
   return (
     <>
       <Breadcrumbs>
@@ -55,7 +66,17 @@ const AddPackage = () => {
             gap: `1rem`,
             paddingBottom: `1rem`,
           }}
-          onSubmit={form.onSubmit((values) => addPackage(values))}
+          onSubmit={form.onSubmit((values) => {
+            if (date[0] && date[1]) {
+              const datas = {
+                ...values,
+                start_day: date[0].toISOString().split('T')[0],
+                end_day: date[1].toISOString().split('T')[0],
+                no_of_days: noOfDays,
+              }
+              addPackage(datas)
+            }
+          })}
         >
           <TextInput
             required
@@ -70,11 +91,23 @@ const AddPackage = () => {
             placeholder='Enter Slug..'
             {...form.getInputProps('slug')}
           />
+          <DateRangePicker
+            label='Tour Duration'
+            placeholder='Pick date range'
+            value={date}
+            onChange={setDate}
+            minDate={dayjs(new Date()).toDate()}
+            icon={<Calendar size={`16`} />}
+            dropdownType={`modal`}
+            firstDayOfWeek={`sunday`}
+            amountOfMonths={2}
+          />
           <Box style={{ width: `100%`, display: 'flex', gap: `0.5rem` }}>
             <NumberInput
               placeholder='No. of Days'
               label='Number of Days'
-              {...form.getInputProps('no_of_days')}
+              value={noOfDays}
+              disabled
             />
             <NumberInput
               required

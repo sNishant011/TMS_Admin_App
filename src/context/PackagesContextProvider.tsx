@@ -76,6 +76,7 @@ const PackagesContextProvider = ({
         },
       })
       .then((res) => {
+        
         showNotification({
           title: 'Successfull',
           message: 'Package added successfully',

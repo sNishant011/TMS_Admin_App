@@ -22,6 +22,7 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [authToken, setAuthToken] = useState<string | null>(null)
   // const [user, setUser] = useState('')
   let [res, setRes] = useState<any>(null)
+
   useEffect(() => {
     const token = localStorage.getItem('token')
     if (token) {

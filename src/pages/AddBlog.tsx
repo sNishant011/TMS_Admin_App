@@ -21,6 +21,7 @@ const AddBlog = () => {
     slug: '',
     image: '',
     description: '',
+    date: '',
     is_published: false,
   }
   const form = useForm({ initialValues: initialValue })
@@ -95,7 +96,7 @@ const AddBlog = () => {
           </InputWrapper>
           <Checkbox
             mt='md'
-            label='Is active'
+            label='Publish'
             {...form.getInputProps('is_published', { type: 'checkbox' })}
           />
 

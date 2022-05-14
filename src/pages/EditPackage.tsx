@@ -14,9 +14,12 @@ import {
   TextInput,
   Title,
 } from '@mantine/core'
+import { DateRangePicker } from '@mantine/dates'
 import RichTextEditor from '@mantine/rte'
+import dayjs from 'dayjs'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { Calendar } from 'tabler-icons-react'
 import { EditPackageType, Package } from '../configs/customTypes'
 import { usePackage } from '../hooks/usePackage'
 
@@ -36,8 +39,11 @@ const EditPackage = () => {
   const [is_featured, setIs_featured] = useState<boolean>(false)
   const [summary, setSummary] = useState<string>('')
   const [full_detail, setFull_detail] = useState<string>('')
+  const [start_day, setStart_day] = useState<string | null>(null)
+  const [end_day, setEnd_day] = useState<string | null>(null)
   const [previewImage, setPreviewImage] = useState<string>('')
 
+  const [date, setDate] = useState<[Date | null, Date | null]>([null, null])
   useEffect(() => {
     if (packageSlug) {
       const p1 = getPackageBySlug(packageSlug)
@@ -57,13 +63,27 @@ const EditPackage = () => {
       setIs_active(packageToBeEdited.is_active)
       setIs_featured(packageToBeEdited.is_featured)
       setSummary(packageToBeEdited.summary)
+      console.log(packageToBeEdited.full_detail)
       setFull_detail(packageToBeEdited.full_detail)
       const image_url = packageToBeEdited.thumbnail_Image
       setPreviewImage(image_url)
+      setStart_day(packageToBeEdited.start_day)
+      setEnd_day(packageToBeEdited.end_day)
     }
   }, [packageToBeEdited])
-
-  if (packageToBeEdited === null) {
+  useEffect(() => {
+    if (start_day && end_day) {
+      setDate([new Date(start_day), new Date(end_day)])
+    }
+  }, [start_day, end_day])
+  useEffect(() => {
+    if (date[0] && date[1]) {
+      const no_of_days =
+        (date[1].getTime() - date[0].getTime()) / (1000 * 60 * 60 * 24)
+      setNo_of_days(no_of_days)
+    }
+  }, [date])
+  if (packageToBeEdited === null || full_detail === '') {
     return <Loader />
   }
   return (
@@ -93,20 +113,22 @@ const EditPackage = () => {
           }}
           onSubmit={(e) => {
             e.preventDefault()
-            const p1: EditPackageType = {
-              title,
-              slug,
-              no_of_days,
-              price,
-              is_active,
-              is_featured,
-              summary,
-              full_detail,
-              image,
+            if (date[0] && date[1]) {
+              const datas = {
+                title,
+                slug,
+                no_of_days,
+                price,
+                is_active,
+                is_featured,
+                summary,
+                full_detail,
+                image,
+                start_day: date[0].toISOString().split('T')[0],
+                end_day: date[1].toISOString().split('T')[0],
+              }
+              editPackage(datas)
             }
-
-            console.log(p1)
-            editPackage(p1)
           }}
         >
           <Box style={{ width: `100%`, display: 'flex', gap: `0.5rem` }}>
@@ -135,12 +157,23 @@ const EditPackage = () => {
             placeholder='your@email.com'
           />
 
+          <DateRangePicker
+            label='Tour Duration'
+            placeholder='Pick date range'
+            value={date}
+            onChange={setDate}
+            minDate={dayjs(new Date()).toDate()}
+            icon={<Calendar size={`16`} />}
+            dropdownType={`modal`}
+            firstDayOfWeek={`sunday`}
+            amountOfMonths={2}
+          />
           <Box style={{ width: `100%`, display: 'flex', gap: `0.5rem` }}>
             <NumberInput
               value={no_of_days}
               placeholder='No. of Days'
               label='Number of Days'
-              onChange={(e: any) => setNo_of_days(e)}
+              disabled
             />
             <NumberInput
               value={price}

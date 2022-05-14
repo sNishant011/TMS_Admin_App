@@ -28,7 +28,6 @@ const BlogsContextProvider = ({ children }: PackagesContextProviderProps) => {
     axios
       .get(`${BASE_API_ROUTE}/blogs/`)
       .then((res) => {
-        console.log(res.data)
         setBlogs(res.data)
       })
       .catch((err) => console.log(err))
@@ -44,7 +43,7 @@ const BlogsContextProvider = ({ children }: PackagesContextProviderProps) => {
   const editBlog = (b1: BlogUploadType) => {
     console.log(b1)
     axios
-      .put(`${BASE_API_ROUTE}/blogs/${b1.slug}/`, b1, {
+      .put(`${BASE_API_ROUTE}/blogs/detail/${b1.slug}/`, b1, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -110,7 +109,7 @@ const BlogsContextProvider = ({ children }: PackagesContextProviderProps) => {
 
   const deleteBlog = (blog_slug: string) => {
     axios
-      .delete(`${BASE_API_ROUTE}/blogs/${blog_slug}/`)
+      .delete(`${BASE_API_ROUTE}/blogs/detail/${blog_slug}/`)
       .then((res) => {
         showNotification({
           title: 'Successfull',

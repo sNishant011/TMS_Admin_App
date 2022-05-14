@@ -10,13 +10,7 @@ import {
   Title,
 } from '@mantine/core'
 import { useForm } from '@mantine/hooks'
-import { showNotification } from '@mantine/notifications'
-import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
-import {
-  NotificationErrorTheme,
-  NotificationSuccessTheme,
-} from '../themes/NotificationThemes'
 
 const useStyles = createStyles((theme) => ({
   heading: {
@@ -65,7 +59,7 @@ const useStyles = createStyles((theme) => ({
     width: '100%',
     marginTop: '1.5rem',
     [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
-      marginTop: '0.5rem',
+      marginTop: '4.5rem',
     },
   },
 }))

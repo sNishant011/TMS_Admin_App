@@ -11,6 +11,7 @@ import {
   NumberInput,
   TextInput,
 } from '@mantine/core'
+import { DatePicker } from '@mantine/dates'
 import RichTextEditor from '@mantine/rte'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -29,6 +30,7 @@ const EditBlog = () => {
   const [image, setImage] = useState<File | string>('')
   const [is_published, setIs_Published] = useState<boolean>(false)
   const [description, setDescription] = useState<string>('')
+  const [date, setDate] = useState<Date | null>(null)
   const [previewImage, setPreviewImage] = useState<string>('')
   useEffect(() => {
     if (blogSlug) {
@@ -46,6 +48,9 @@ const EditBlog = () => {
       setSlug(blogToBeEdited.slug)
       setSubtitle(blogToBeEdited.subtitle)
       setDescription(blogToBeEdited.description)
+      if (blogToBeEdited.date) {
+        setDate(new Date(blogToBeEdited.date))
+      }
       setIs_Published(blogToBeEdited.is_published)
       const image_url = blogToBeEdited.thumbnail_Image
       setPreviewImage(image_url)
@@ -81,11 +86,12 @@ const EditBlog = () => {
           }}
           onSubmit={(e) => {
             e.preventDefault()
-            const p1: BlogUploadType = {
+            const p1 = {
               title,
               slug,
               subtitle,
               description,
+              date,
               image,
               is_published,
             }
@@ -101,6 +107,12 @@ const EditBlog = () => {
               value={id}
               onChange={(e: any) => setId(e.target.value)}
               disabled
+            />
+            <DatePicker
+              value={date}
+              disabled
+              label='Date created'
+              onChange={setDate}
             />
             <TextInput
               style={{ width: `100%` }}
@@ -161,7 +173,7 @@ const EditBlog = () => {
             mt='md'
             checked={is_published}
             onChange={(e: any) => setIs_Published(e.target.checked)}
-            label='Is active'
+            label='Publish'
           />
 
           <Group position='right' mt='md'>

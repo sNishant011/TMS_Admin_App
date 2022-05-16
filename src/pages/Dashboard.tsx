@@ -1,4 +1,5 @@
 import { Box, Divider, Paper, Text, Title } from '@mantine/core'
+import {  useNavigate } from 'react-router-dom'
 import { useBlog } from '../hooks/useBlog'
 import { usePackage } from '../hooks/usePackage'
 import { useUser } from '../hooks/useUsers'
@@ -7,6 +8,7 @@ const Dashboard = () => {
   const { allPackages } = usePackage()
   const { blogs } = useBlog()
   const { userCount } = useUser()
+  const navigate = useNavigate()
   return (
     <>
       <Title order={1}>Dashboard</Title>
@@ -19,7 +21,9 @@ const Dashboard = () => {
             alignItems: 'center',
             justifyContent: 'center',
             cursor: 'pointer',
+            
           }}
+          onClick = {() => navigate('/packages')}
           shadow='sm'
           radius='md'
           p='lg'
@@ -47,6 +51,7 @@ const Dashboard = () => {
           shadow='sm'
           radius='md'
           p='lg'
+          onClick = {() => navigate('/blogs')}
           withBorder
         >
           <Text style={{ fontSize: `2rem` }} weight={`bolder`} color={`blue`}>
@@ -70,6 +75,7 @@ const Dashboard = () => {
           }}
           shadow='sm'
           radius='md'
+          onClick={() => navigate('/users')}
           p='lg'
           withBorder
         >
